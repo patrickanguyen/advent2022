@@ -1,33 +1,16 @@
-use clap::{App, Arg};
+use advent::AdventCode;
 use std::collections::BinaryHeap;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 
 fn main() {
-    let matches = App::new("Day1")
-        .arg(Arg::new("input_path").value_name("FILE").required(true))
-        .get_matches();
+    let advent = AdventCode::new("day1");
 
-    let reader = {
-        let input_path = matches
-            .value_of("input_path")
-            .expect("Argument should always be given");
-
-        let input = match File::open(input_path) {
-            Ok(f) => f,
-            Err(_) => panic!("Unable to open file"),
-        };
-
-        BufReader::new(input)
-    };
-
-    let lines = reader.lines().map(|line| match line {
-        Ok(line) => line,
+    let lines = match advent.get_input() {
+        Ok(lines) => lines,
         Err(err) => {
-            println!("Error: Unable to read file - {}", err);
+            println!("{}", err);
             std::process::exit(1);
         }
-    });
+    };
 
     let mut current_calories = 0;
     let mut calories_heap = BinaryHeap::new();

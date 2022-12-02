@@ -3,6 +3,14 @@
 version = 3
 
 [[package]]
+name = "advent"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "thiserror",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -68,12 +76,15 @@ dependencies = [
 name = "day1"
 version = "0.1.0"
 dependencies = [
- "clap",
+ "advent",
 ]
 
 [[package]]
 name = "day2"
 version = "0.1.0"
+dependencies = [
+ "advent",
+]
 
 [[package]]
 name = "hashbrown"
@@ -197,6 +208,26 @@ name = "textwrap"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "222a222a5bfe1bba4a77b45ec488a741b3cb8872e5e499451fd7d0129c9c7c3d"
+
+[[package]]
+name = "thiserror"
+version = "1.0.37"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "10deb33631e3c9018b9baf9dcbbc4f737320d2b576bac10f6aefa048fa407e3e"
+dependencies = [
+ "thiserror-impl",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "1.0.37"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "982d17546b47146b28f7c22e3d08465f6b8903d0ea13c1660d9d84a6e7adcdbb"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "unicode-ident"
