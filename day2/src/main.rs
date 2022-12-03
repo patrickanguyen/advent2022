@@ -1,4 +1,5 @@
 use advent::AdventCode;
+use std::str::FromStr;
 
 enum Outcome {
     Win,
@@ -36,14 +37,14 @@ impl Outcome {
     }
 }
 
-impl TryFrom<char> for Outcome {
-    type Error = &'static str;
+impl FromStr for Outcome {
+    type Err = &'static str;
 
-    fn try_from(value: char) -> Result<Self, Self::Error> {
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
-            'X' => Ok(Outcome::Lost),
-            'Y' => Ok(Outcome::Draw),
-            'Z' => Ok(Outcome::Win),
+            "X" => Ok(Outcome::Lost),
+            "Y" => Ok(Outcome::Draw),
+            "Z" => Ok(Outcome::Win),
             _ => Err("Invalid input"),
         }
     }
@@ -87,14 +88,14 @@ impl Hand {
     }
 }
 
-impl TryFrom<char> for Hand {
-    type Error = &'static str;
+impl FromStr for Hand {
+    type Err = &'static str;
 
-    fn try_from(value: char) -> Result<Self, Self::Error> {
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
-            'A' | 'X' => Ok(Hand::Rock),
-            'B' | 'Y' => Ok(Hand::Paper),
-            'C' | 'Z' => Ok(Hand::Scissors),
+            "A" | "X" => Ok(Hand::Rock),
+            "B" | "Y" => Ok(Hand::Paper),
+            "C" | "Z" => Ok(Hand::Scissors),
             _ => Err("Invalid input"),
         }
     }
@@ -114,11 +115,13 @@ fn main() {
     let mut total_points = 0;
 
     for line in lines {
-        let char1 = line.chars().next().unwrap();
-        let char2 = line.chars().nth(2).unwrap();
+        let mut words = line.split_whitespace();
 
-        let opponent: Hand = char1.try_into().unwrap();
-        let outcome: Outcome = char2.try_into().unwrap();
+        let word1 = words.next().expect("Line should have at least 2 words");
+        let word2 = words.next().expect("Line should have at least 2 words");
+
+        let opponent = Hand::from_str(word1).expect("Should be able to parsed to a hand");
+        let outcome = Outcome::from_str(word2).expect("Should be able to parsed to an outcome");
 
         let player = outcome.get_player_move(opponent);
         total_points += player.value() + outcome.value();
