@@ -1,5 +1,4 @@
 use advent::AdventCode;
-use std::collections::HashSet;
 
 fn get_priority(item: &char) -> u32 {
     let val = *item as u32;
@@ -25,24 +24,18 @@ fn main() {
     };
 
     let mut sum = 0;
-    let mut sets = Vec::new();
-    sets.reserve(3);
 
-    for line in lines {
-        let set: HashSet<char> = line.chars().collect();
-        sets.push(set);
+    for group in lines.chunks(3) {
+        let mut inter = group[0]
+            .chars()
+            .filter(|item| group[1].contains(*item))
+            .filter(|item| group[2].contains(*item));
 
-        if sets.len() == 3 {
-            let mut inter = sets[0].iter()
-                .filter(|item| sets[1].contains(item))
-                .filter(|item| sets[2].contains(item));
+        let same = inter
+            .next()
+            .expect("Intersection should contain at least 1 element");
 
-            let same = inter.next().expect("Intersection should contain at least 1 element");
-            let priority = get_priority(same);
-
-            sum += priority;
-            sets.clear();
-        }
+        sum += get_priority(&same);
     }
 
     println!("Sum: {}", sum);
