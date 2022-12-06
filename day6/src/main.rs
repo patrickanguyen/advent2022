@@ -32,7 +32,7 @@ fn find_marker(data_stream: &String, num_unique: usize) -> Option<usize> {
 }
 
 fn main() {
-    let advent = AdventCode::new("day5");
+    let advent = AdventCode::new("day6");
 
     let lines = match advent.get_input() {
         Ok(lines) => lines,
